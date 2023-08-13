@@ -1,0 +1,100 @@
+{
+  "ar": {
+    "javascript": 0,
+    "typescript": 0,
+    "rust": 1,
+    "python": 0,
+    "java": 1
+  },
+  "browser application": {
+    "javascript": 3,
+    "typescript": 3,
+    "rust": 1,
+    "python": 1,
+    "java": 1
+  },
+  "command line application": {
+    "javascript": 2,
+    "typescript": 2,
+    "rust": 3,
+    "python": 2,
+    "java": 2
+  },
+  "data science": {
+    "javascript": 1,
+    "typescript": 1,
+    "rust": 2,
+    "python": 3,
+    "java": 2
+  },
+  "data visualization": {
+    "javascript": 3,
+    "typescript": 3,
+    "rust": 1,
+    "python": 3,
+    "java": 1
+  },
+  "desktop application": {
+    "javascript": 2,
+    "typescript": 2,
+    "rust": 2,
+    "python": 1,
+    "java": 2
+  },
+  "embedded": {
+    "javascript": 0,
+    "typescript": 0,
+    "rust": 3,
+    "python": 0,
+    "java": 0
+  },
+  "etl": {
+    "javascript": 2,
+    "typescript": 2,
+    "rust": 3,
+    "python": 2,
+    "java": 2
+  },
+  "game": {
+    "javascript": 2,
+    "typescript": 2,
+    "rust": 2,
+    "python": 1,
+    "java": 1
+  },
+  "messaging": {
+    "javascript": 3,
+    "typescript": 3,
+    "rust": 3,
+    "python": 1,
+    "java": 1
+  },
+  "mobile application": {
+    "javascript": 1,
+    "typescript": 1,
+    "rust": 1,
+    "python": 1,
+    "java": 3
+  },
+  "system": {
+    "javascript": 0,
+    "typescript": 0,
+    "rust": 3,
+    "python": 0,
+    "java": 0
+  },
+  "vr": {
+    "javascript": 0,
+    "typescript": 0,
+    "rust": 1,
+    "python": 0,
+    "java": 1
+  },
+  "web server": {
+    "javascript": 3,
+    "typescript": 3,
+    "rust": 3,
+    "python": 1,
+    "java": 2
+  }
+}

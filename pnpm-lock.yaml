@@ -1,4 +1,4 @@
-lockfileVersion: '6.1'
+lockfileVersion: '6.0'
 
 settings:
   autoInstallPeers: true
@@ -29,9 +29,17 @@ dependencies:
   react-dom:
     specifier: 18.2.0
     version: 18.2.0(react@18.2.0)
+  set-fns:
+    specifier: 1.0.0
+    version: 1.0.0
   typescript:
     specifier: 5.1.6
     version: 5.1.6
+
+devDependencies:
+  papaparse:
+    specifier: 5.4.1
+    version: 5.4.1
 
 packages:
 
@@ -1619,6 +1627,10 @@ packages:
       p-limit: 3.1.0
     dev: false
 
+  /papaparse@5.4.1:
+    resolution: {integrity: sha512-HipMsgJkZu8br23pW15uvo6sib6wne/4woLZPlFf3rpDyMe9ywEXUsuD7+6K9PRkJlVT51j/sCOYDKGGS3ZJrw==}
+    dev: true
+
   /parent-module@1.0.1:
     resolution: {integrity: sha512-GQ2EWRpQV8/o+Aw8YqtfZZPfNRWZYkbidE9k5rpl/hC3vtHHBfGm2Ifi6qWV+coDGkrUKZAxE3Lot5kcsRlh+g==}
     engines: {node: '>=6'}
@@ -1804,6 +1816,10 @@ packages:
     hasBin: true
     dependencies:
       lru-cache: 6.0.0
+    dev: false
+
+  /set-fns@1.0.0:
+    resolution: {integrity: sha512-6hnMbNDEymnAhxkPRbWEa0mFD5qWYdeU3il0d1EbyN2A2pQfwRLaK3LGM+O/Ls+L65i40K7dVeGpVt4bOr4oGQ==}
     dev: false
 
   /shebang-command@2.0.0:
