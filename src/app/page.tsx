@@ -26,6 +26,15 @@ const DOMAINS = [
 const TECHNICAL_VALUES = ["correctness", "developer ux", "performance"];
 const SOCIAL_VALUES = ["community", "ecosystem", "hiring"];
 
+const noSelection = (
+  <>
+    No options selected.
+    <p style={{ fontSize: "0.8rem" }}>
+      Omitting a dimension drops all score contributions along that dimension.
+    </p>
+  </>
+);
+
 export default function Home() {
   const [params, setParams] = React.useState<PLSelectParamsOrNull>({
     technicalValues: null,
@@ -54,6 +63,10 @@ export default function Home() {
         See the <a href="#faq">FAQ</a> for more.
       </p>
       <h2>Parameters</h2>
+      <p>
+        Adjust the below parameters based on preference & needs. The results are
+        normalized 0-1 and sorted accordingly.
+      </p>
       <h3>Domains</h3>
       {DOMAINS.map((d) => (
         <span
@@ -83,6 +96,7 @@ export default function Home() {
         onSelect={onSelectParams}
         name="technicalValues"
         options={TECHNICAL_VALUES}
+        noSelection={noSelection}
       />
       <h3>Social Values</h3>
       <MultiSelect<"socialValues">
@@ -90,6 +104,7 @@ export default function Home() {
         onSelect={onSelectParams}
         name="socialValues"
         options={SOCIAL_VALUES}
+        noSelection={noSelection}
       />
       <h2>Result</h2>
       {missingParams.length ? (

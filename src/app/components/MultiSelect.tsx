@@ -11,6 +11,7 @@ type Props<Name extends string> = Omit<
   name: Name;
   zerosum?: boolean;
   options: string[];
+  noSelection?: React.ReactNode;
   onSelect?: (_: Record<Name, Record<string, number>>) => void;
 };
 
@@ -163,6 +164,7 @@ export const MultiSelect = <Name extends string>({
   onSelect,
   zerosum,
   maxSelections,
+  noSelection,
   ...props
 }: Props<Name>) => {
   const [selected, setSelected] = React.useState<string[]>([]);
@@ -185,59 +187,54 @@ export const MultiSelect = <Name extends string>({
   const isNoDof = selected.length - lockedWeightSet.size <= 1;
   return (
     <>
-      {selected.length ? (
-        selected.map((ss, i) => {
-          return (
-            <Option
-              key={i}
-              checked
-              i={i}
-              onClick={() => {
-                lockedWeightSet.delete(ss);
-                selectedSet.delete(ss);
-                const nextSelected = [...selectedSet];
-                setLockedWeightSet(new Set(lockedWeightSet));
+      {selected.length
+        ? selected.map((ss, i) => {
+            return (
+              <Option
+                key={i}
+                checked
+                i={i}
+                onClick={() => {
+                  lockedWeightSet.delete(ss);
+                  selectedSet.delete(ss);
+                  const nextSelected = [...selectedSet];
+                  setLockedWeightSet(new Set(lockedWeightSet));
 
-                const nextWeights = getBalancedWeights(nextSelected);
-                console.log({ nextWeights });
-                setSelectedWeights(nextWeights);
-                setSelected(nextSelected);
-              }}
-              {...(zerosum && ss in selectedWeights
-                ? {
-                    weight: selectedWeights[ss],
-                    onWeightChange(weight) {
-                      selectedWeights[ss] = weight;
+                  const nextWeights = getBalancedWeights(nextSelected);
+                  console.log({ nextWeights });
+                  setSelectedWeights(nextWeights);
+                  setSelected(nextSelected);
+                }}
+                {...(zerosum && ss in selectedWeights
+                  ? {
+                      weight: selectedWeights[ss],
+                      onWeightChange(weight) {
+                        selectedWeights[ss] = weight;
 
-                      setSelectedWeights(
-                        rebalanceWeights({
-                          key: ss,
-                          value: weight,
-                          selectedWeights,
-                          lockedWeightSet,
-                        }),
-                      );
-                    },
-                    disabledWeights: isNoDof,
-                    locked: lockedWeightSet.has(ss),
-                    onClickWeightLock() {
-                      lockedWeightSet.has(ss)
-                        ? lockedWeightSet.delete(ss)
-                        : lockedWeightSet.add(ss);
-                      setLockedWeightSet(new Set(lockedWeightSet));
-                    },
-                  }
-                : {})}
-              name={ss}
-            />
-          );
-        })
-      ) : (
-        <>
-          No options selected
-          <br />
-        </>
-      )}
+                        setSelectedWeights(
+                          rebalanceWeights({
+                            key: ss,
+                            value: weight,
+                            selectedWeights,
+                            lockedWeightSet,
+                          }),
+                        );
+                      },
+                      disabledWeights: isNoDof,
+                      locked: lockedWeightSet.has(ss),
+                      onClickWeightLock() {
+                        lockedWeightSet.has(ss)
+                          ? lockedWeightSet.delete(ss)
+                          : lockedWeightSet.add(ss);
+                        setLockedWeightSet(new Set(lockedWeightSet));
+                      },
+                    }
+                  : {})}
+                name={ss}
+              />
+            );
+          })
+        : noSelection}
       <br />
       {remOptions.map((name, i) => {
         return (
