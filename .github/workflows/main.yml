@@ -1,0 +1,51 @@
+# @info
+# main & pull_request jobs cannot de-dupe their workflow configuration :(
+# https://github.community/t5/GitHub-Actions/Start-a-workflow-from-another-workflow/td-p/37586
+name: main
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    env:
+      NEXT_PUBLIC_BASE_PATH: /airmap
+    runs-on: ubuntu-latest
+    steps:
+      # https://github.com/JamesIves/github-pages-deploy-action#getting-started-airplane
+      - name: checkout 🛎️
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+      - name: Install pnpm
+        run: npm install -g pnpm@8.6.2
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18.14.2
+          cache: "pnpm"
+      - name: Install and Test
+        run: |
+          pnpm install
+          pnpm -r format --check
+          pnpm typecheck
+          pnpm -r test
+          pnpm turbo build
+      - name: Prepare site
+        run: |
+          pnpm -r export
+          echo "inspecting exported out dir"
+          ls -al ./apps/airmap/out
+          echo "moving exported out dir"
+          mv apps/airmap/out ./out
+          echo "inspecting sibling out dir"
+          ls -al ./out
+          echo "adding .nojekyll"
+          touch ./out/.nojekyll || echo wuuuut
+          ls -al out/.nojekyll || echo hmmmmmm
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@4.1.3
+        with:
+          branch: gh-pages
+          folder: out
+          clean: true

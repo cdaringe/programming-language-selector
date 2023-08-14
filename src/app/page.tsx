@@ -1,8 +1,8 @@
 "use client";
 
-import { MultiSelect } from "./components/MultiSelect";
 import React from "react";
-import type { PLSelectParams, PLSelectParamsOrNull } from "./model";
+import { MultiSelect } from "./components/MultiSelect";
+import type { PLSelectParamsOrNull } from "./model";
 
 import { Ranker } from "./components/Ranker";
 
@@ -34,12 +34,12 @@ export default function Home() {
   });
   const onSelectParams = React.useCallback(
     (x: Partial<typeof params>) => setParams((last) => ({ ...last, ...x })),
-    []
+    [],
   );
   const missingParams = Object.entries(params).reduce(
     (acc, [key, value]) =>
       value ? acc : key === /* optional */ "socialValues" ? acc : [...acc, key],
-    [] as string[]
+    [] as string[],
   );
   return (
     <main>

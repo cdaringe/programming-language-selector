@@ -2,7 +2,6 @@ import { rank } from "../analysis/result";
 import {
   LangMetaByLang,
   LangRatingByDomain,
-  PLSelectParams,
   PLSelectParamsOrNull,
 } from "../model";
 

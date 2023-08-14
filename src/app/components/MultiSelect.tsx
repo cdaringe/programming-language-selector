@@ -116,7 +116,7 @@ function rebalanceWeights({
 
   // handle locked values
   for (const key of lockedWeightSet) {
-    const weight = unhandledWeights[key];
+    const weight = unhandledWeights[key]!;
     next[key] = weight;
     rem = rem - weight;
     delete unhandledWeights[key];
@@ -131,7 +131,7 @@ function rebalanceWeights({
   // handle redistribution/rescaling
   const lastRem = Object.values(unhandledWeights).reduce(
     (sum, x) => x + sum,
-    0
+    0,
   );
   const scalar = lastRem ? rem / lastRem : 1;
   const numUnhandled = Object.keys(unhandledWeights).length;
@@ -167,7 +167,7 @@ export const MultiSelect = <Name extends string>({
 }: Props<Name>) => {
   const [selected, setSelected] = React.useState<string[]>([]);
   const [lockedWeightSet, setLockedWeightSet] = React.useState(
-    new Set<string>()
+    new Set<string>(),
   );
   const selectedSet = new Set(selected);
   const remOptions = [...difference(options, selectedSet)];
@@ -215,7 +215,7 @@ export const MultiSelect = <Name extends string>({
                           value: weight,
                           selectedWeights,
                           lockedWeightSet,
-                        })
+                        }),
                       );
                     },
                     disabledWeights: isNoDof,

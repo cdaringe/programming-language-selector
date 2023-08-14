@@ -2,25 +2,25 @@
  * @usage
  *
  */
-import { download } from "./download-data.mjs";
+import assert from "node:assert";
+import { readFile, writeFile } from "node:fs/promises";
+import { default as papa } from "papaparse";
 import {
   datacsvFilename,
   datadomaincsvFilename,
-  datajsonFilename,
   datadomainjsonFilename,
+  datajsonFilename,
 } from "./common.mjs";
-import { default as papa } from "papaparse";
-import { readFile, writeFile } from "node:fs/promises";
-import assert from "node:assert";
+import { download } from "./download-data.mjs";
 
 async function main() {
   await download(
     datacsvFilename,
-    "https://docs.google.com/spreadsheets/d/1ZVdRbDx5KffYxcecuP6AHXcJWl35nhv9U5f62h6azOU/export?format=csv&gid=0"
+    "https://docs.google.com/spreadsheets/d/1ZVdRbDx5KffYxcecuP6AHXcJWl35nhv9U5f62h6azOU/export?format=csv&gid=0",
   );
   await download(
     datadomaincsvFilename,
-    "https://docs.google.com/spreadsheets/d/1ZVdRbDx5KffYxcecuP6AHXcJWl35nhv9U5f62h6azOU/export?format=csv&gid=1053800725"
+    "https://docs.google.com/spreadsheets/d/1ZVdRbDx5KffYxcecuP6AHXcJWl35nhv9U5f62h6azOU/export?format=csv&gid=1053800725",
   );
   const csvStr = await readFile(datacsvFilename, { encoding: "utf-8" });
   const {
@@ -80,7 +80,7 @@ async function main() {
       }
       return acc;
     },
-    langs.reduce((acc, it) => ({ ...acc, [it]: {} }), {})
+    langs.reduce((acc, it) => ({ ...acc, [it]: {} }), {}),
   );
 
   const jsonDomainReady = parsedDomain.reduce((acc, { domain, ...rest }) => {
@@ -99,7 +99,7 @@ async function main() {
   await writeFile(datajsonFilename, JSON.stringify(jsonReady, null, 2));
   await writeFile(
     datadomainjsonFilename,
-    JSON.stringify(jsonDomainReady, null, 2)
+    JSON.stringify(jsonDomainReady, null, 2),
   );
   console.log(`json @ ${datajsonFilename}`);
 }
