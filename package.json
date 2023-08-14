@@ -4,10 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "export": "next export",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "format": "prettier --write ."
+    "format:write": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "dependencies": {
     "@types/node": "20.4.9",
