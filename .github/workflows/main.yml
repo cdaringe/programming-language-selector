@@ -31,7 +31,7 @@ jobs:
           pnpm build
       - name: Prepare site
         run: |
-          pnpm -r export
+          pnpm export
           echo "inspecting exported out dir"
           ls -al ./out
           echo "adding .nojekyll"
