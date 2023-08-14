@@ -6,7 +6,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Programming Language Selector",
-  description: "PL tooling evaluation",
+  description: "Programming language selection evaluation and ranking tool",
 };
 
 export default function RootLayout({
