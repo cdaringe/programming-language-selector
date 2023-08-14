@@ -1,7 +1,7 @@
 import * as path from "node:path";
 import * as fs from "node:fs";
 
-const dirname = import.meta.url.replace("file://", "");
+const dirname = path.dirname(import.meta.url.replace("file://", ""));
 
 export const workspaceDirname = path.resolve(dirname, "..");
 export const datacsvFilename = path.join(workspaceDirname, "data.csv");
