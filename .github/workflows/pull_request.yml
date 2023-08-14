@@ -23,7 +23,6 @@ jobs:
           pnpm format:check
           pnpm typecheck
           pnpm build
-          pnpm export
           echo "inspecting exported out dir"
           ls -al ./out
           echo "adding .nojekyll"

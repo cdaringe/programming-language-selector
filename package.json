@@ -5,7 +5,6 @@
   "scripts": {
     "prepare:data": "node ./scripts/prepare-data.mjs",
     "dev": "pnpm prepare:data && next dev",
-    "export": "next export",
     "build": "pnpm prepare:data && next build",
     "start": "next start",
     "lint": "next lint",
