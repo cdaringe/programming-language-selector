@@ -6,6 +6,11 @@ import { Ranker } from "./components/Ranker";
 import type { PLSelectParamsOrNull } from "./model/types";
 
 const MODEL_TYPES_HASH = process.env.NEXT_PUBLIC_MODEL_TYPES_HASH;
+const DEFAULT_SELECT_PARAMS = {
+  technicalValues: null,
+  socialValues: null,
+  domains: null,
+};
 
 const DOMAINS = [
   "ar",
@@ -258,12 +263,6 @@ export default function Home() {
     </main>
   );
 }
-
-const DEFAULT_SELECT_PARAMS = {
-  technicalValues: null,
-  socialValues: null,
-  domains: null,
-};
 
 function getInitialParams(): PLSelectParamsOrNull {
   if (typeof window === "undefined") return DEFAULT_SELECT_PARAMS;

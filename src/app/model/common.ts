@@ -2,8 +2,8 @@ import {
   LangMetaByLang,
   LangRatingByDomain,
   PLSelectParamsOrNull,
-} from "./model";
-import { ScoreModel } from "./types";
+  ScoreModel,
+} from "./types";
 
 export const rank = (
   score: ScoreModel,

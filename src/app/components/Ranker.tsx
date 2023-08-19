@@ -3,7 +3,7 @@ import {
   LangMetaByLang,
   LangRatingByDomain,
   PLSelectParamsOrNull,
-} from "../model/model";
+} from "../model/types";
 
 import rawData from "../../../data.json";
 import rawDomainData from "../../../datadomain.json";
