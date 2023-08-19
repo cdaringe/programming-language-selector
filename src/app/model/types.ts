@@ -1,3 +1,13 @@
+export type ScoreModel = (
+  meta: LangMeta,
+  params: PLSelectParamsOrNull,
+  _langName: string,
+) => number;
+
+export type Model = {
+  score: ScoreModel;
+};
+
 type SocialValues = "ecosystem" | "community" | "hiring";
 type TechnicalValues = "developer ux" | "correctness" | "performance";
 

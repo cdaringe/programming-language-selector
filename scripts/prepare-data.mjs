@@ -1,6 +1,10 @@
 /**
- * @usage
+ * @description
+ * prepare model data. convert remote worksheet => CSV => JSON for easier
+ * consumption in the browser application
  *
+ * @usage
+ * node ./scripts/prepare-data.mjs
  */
 import assert from "node:assert";
 import { readFile, writeFile } from "node:fs/promises";
@@ -101,7 +105,7 @@ async function main() {
     datadomainjsonFilename,
     JSON.stringify(jsonDomainReady, null, 2),
   );
-  console.log(`json @ ${datajsonFilename}`);
+  console.log(`[prepare] ok`);
 }
 
 main();

@@ -9,7 +9,11 @@ export const download = async (filename, url) => {
     const ageMs = nowMs - stat.ctimeMs;
     if (ageMs < ONE_HOUR_MS) {
       console.warn(
-        `using existing, age (minutes): ${(ageMs / 1000 / 60).toFixed(0)}`,
+        `[download] skip. using existing data, age: ${(
+          ageMs /
+          1000 /
+          60
+        ).toFixed(0)} minutes`,
       );
       return;
     }

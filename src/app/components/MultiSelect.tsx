@@ -3,18 +3,6 @@ import { difference } from "set-fns";
 
 const noop = () => {};
 
-type Props<Name extends string> = Omit<
-  React.JSX.IntrinsicElements["select"],
-  "onSelect" | "name"
-> & {
-  maxSelections?: number;
-  name: Name;
-  zerosum?: boolean;
-  options: string[];
-  noSelection?: React.ReactNode;
-  onSelect?: (_: Record<Name, Record<string, number>>) => void;
-};
-
 const Option: React.FC<
   {
     i: number;
@@ -91,6 +79,122 @@ const Option: React.FC<
   );
 };
 
+type Props<Name extends string> = Omit<
+  React.JSX.IntrinsicElements["select"],
+  "onSelect" | "name" | "defaultValue"
+> & {
+  maxSelections?: number;
+  name: Name;
+  zerosum?: boolean;
+  options: string[];
+  noSelection?: React.ReactNode;
+  onSelect?: (_: Record<Name, Record<string, number>>) => void;
+  defaultValue?: Record<string, number> | null;
+};
+
+export const MultiSelect = <Name extends string>({
+  name,
+  options,
+  onSelect,
+  zerosum,
+  maxSelections,
+  noSelection,
+  defaultValue,
+  ...props
+}: Props<Name>) => {
+  const [selected, setSelected] = React.useState<string[]>(
+    Object.keys(defaultValue || {}),
+  );
+  const [lockedWeightSet, setLockedWeightSet] = React.useState(
+    new Set<string>(),
+  );
+  const selectedSet = new Set(selected);
+  const remOptions = [...difference(options, selectedSet)];
+  const [selectedWeights, setSelectedWeights] = React.useState<
+    Record<string, number>
+  >(defaultValue || getBalancedWeights(selected));
+  React.useEffect(() => {
+    if (!onSelect) return;
+    onSelect({
+      [name as Name]: Object.keys(selectedWeights).length
+        ? selectedWeights
+        : null,
+    } as Parameters<typeof onSelect>[0]);
+  }, [selected, onSelect, name, selectedWeights]);
+  const isNoDof = selected.length - lockedWeightSet.size <= 1;
+  return (
+    <>
+      {selected.length
+        ? selected.map((ss, i) => {
+            return (
+              <Option
+                key={i}
+                checked
+                i={i}
+                onClick={() => {
+                  lockedWeightSet.delete(ss);
+                  selectedSet.delete(ss);
+                  const nextSelected = [...selectedSet];
+                  setLockedWeightSet(new Set(lockedWeightSet));
+
+                  const nextWeights = getBalancedWeights(nextSelected);
+                  setSelectedWeights(nextWeights);
+                  setSelected(nextSelected.sort());
+                }}
+                {...(zerosum && ss in selectedWeights
+                  ? {
+                      weight: selectedWeights[ss],
+                      onWeightChange(weight) {
+                        selectedWeights[ss] = weight;
+
+                        setSelectedWeights(
+                          rebalanceWeights({
+                            key: ss,
+                            value: weight,
+                            selectedWeights,
+                            lockedWeightSet,
+                          }),
+                        );
+                      },
+                      disabledWeights: isNoDof,
+                      locked: lockedWeightSet.has(ss),
+                      onClickWeightLock() {
+                        lockedWeightSet.has(ss)
+                          ? lockedWeightSet.delete(ss)
+                          : lockedWeightSet.add(ss);
+                        setLockedWeightSet(new Set(lockedWeightSet));
+                      },
+                    }
+                  : {})}
+                name={ss}
+              />
+            );
+          })
+        : noSelection}
+      <br />
+      {remOptions.map((name, i) => {
+        return (
+          <Option
+            disabled={selected.length >= (maxSelections || Number.MAX_VALUE)}
+            checked={false}
+            key={i}
+            i={i}
+            name={name}
+            onClick={() => {
+              selectedSet.add(name);
+              const nextSelected = [...selectedSet];
+              const nextWeights = getBalancedWeights(nextSelected);
+              console.log({ nextWeights });
+              setSelectedWeights(nextWeights);
+              setSelected(nextSelected.sort());
+            }}
+          />
+        );
+      })}
+    </>
+  );
+};
+
 function getBalancedWeights(selected: string[]) {
   const equalWeight = 1 / selected.length;
   return selected.reduce((acc, it) => ({ ...acc, [it]: equalWeight }), {});
@@ -157,104 +261,3 @@ function rebalanceWeights({
   // console.log({ sumIs1Check });
   return next;
 }
-
-export const MultiSelect = <Name extends string>({
-  name,
-  options,
-  onSelect,
-  zerosum,
-  maxSelections,
-  noSelection,
-  ...props
-}: Props<Name>) => {
-  const [selected, setSelected] = React.useState<string[]>([]);
-  const [lockedWeightSet, setLockedWeightSet] = React.useState(
-    new Set<string>(),
-  );
-  const selectedSet = new Set(selected);
-  const remOptions = [...difference(options, selectedSet)];
-  const [selectedWeights, setSelectedWeights] = React.useState<
-    Record<string, number>
-  >(getBalancedWeights(selected));
-  React.useEffect(() => {
-    if (!onSelect) return;
-    onSelect({
-      [name as Name]: Object.keys(selectedWeights).length
-        ? selectedWeights
-        : null,
-    } as Parameters<typeof onSelect>[0]);
-  }, [selected, onSelect, name, selectedWeights]);
-  const isNoDof = selected.length - lockedWeightSet.size <= 1;
-  return (
-    <>
-      {selected.length
-        ? selected.map((ss, i) => {
-            return (
-              <Option
-                key={i}
-                checked
-                i={i}
-                onClick={() => {
-                  lockedWeightSet.delete(ss);
-                  selectedSet.delete(ss);
-                  const nextSelected = [...selectedSet];
-                  setLockedWeightSet(new Set(lockedWeightSet));
-
-                  const nextWeights = getBalancedWeights(nextSelected);
-                  console.log({ nextWeights });
-                  setSelectedWeights(nextWeights);
-                  setSelected(nextSelected);
-                }}
-                {...(zerosum && ss in selectedWeights
-                  ? {
-                      weight: selectedWeights[ss],
-                      onWeightChange(weight) {
-                        selectedWeights[ss] = weight;
-
-                        setSelectedWeights(
-                          rebalanceWeights({
-                            key: ss,
-                            value: weight,
-                            selectedWeights,
-                            lockedWeightSet,
-                          }),
-                        );
-                      },
-                      disabledWeights: isNoDof,
-                      locked: lockedWeightSet.has(ss),
-                      onClickWeightLock() {
-                        lockedWeightSet.has(ss)
-                          ? lockedWeightSet.delete(ss)
-                          : lockedWeightSet.add(ss);
-                        setLockedWeightSet(new Set(lockedWeightSet));
-                      },
-                    }
-                  : {})}
-                name={ss}
-              />
-            );
-          })
-        : noSelection}
-      <br />
-      {remOptions.map((name, i) => {
-        return (
-          <Option
-            disabled={selected.length >= (maxSelections || Number.MAX_VALUE)}
-            checked={false}
-            key={i}
-            i={i}
-            name={name}
-            onClick={() => {
-              selectedSet.add(name);
-              const nextSelected = [...selectedSet];
-              const nextWeights = getBalancedWeights(nextSelected);
-              console.log({ nextWeights });
-              setSelectedWeights(nextWeights);
-              setSelected(nextSelected);
-            }}
-          />
-        );
-      })}
-    </>
-  );
-};

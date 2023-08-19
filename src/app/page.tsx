@@ -2,9 +2,10 @@
 
 import React from "react";
 import { MultiSelect } from "./components/MultiSelect";
-import type { PLSelectParamsOrNull } from "./model";
-
 import { Ranker } from "./components/Ranker";
+import type { PLSelectParamsOrNull } from "./model/types";
+
+const MODEL_TYPES_HASH = process.env.NEXT_PUBLIC_MODEL_TYPES_HASH;
 
 const DOMAINS = [
   "ar",
@@ -35,15 +36,30 @@ const noSelection = (
   </>
 );
 
+const initialParams = getInitialParams();
+
 export default function Home() {
-  const [params, setParams] = React.useState<PLSelectParamsOrNull>({
-    technicalValues: null,
-    socialValues: null,
-    domains: null,
-  });
+  const [params, setParams] =
+    React.useState<PLSelectParamsOrNull>(initialParams);
+  React.useEffect(
+    function cacheParams() {
+      setTimeout(
+        () =>
+          window.localStorage.setItem(
+            "last_params",
+            JSON.stringify({
+              modelTypesHash: MODEL_TYPES_HASH,
+              params,
+            }),
+          ),
+        100, // give that ol' event loop some breathing room
+      );
+    },
+    [params],
+  );
   const onSelectParams = React.useCallback(
     (x: Partial<typeof params>) => setParams((last) => ({ ...last, ...x })),
-    [],
+    [setParams],
   );
   const missingParams = Object.entries(params).reduce(
     (acc, [key, value]) =>
@@ -54,8 +70,8 @@ export default function Home() {
     <main>
       <h1>Programming Language Selector</h1>
       <p>
-        Score & rank programming languages given user specified social values
-        and the target programming domain.
+        Score & rank programming languages given user specified values and the
+        target programming domain.
       </p>
       <br />
 
@@ -86,7 +102,13 @@ export default function Home() {
             }));
           }}
         >
-          <input id={d} type="radio" name="domains" value={d} />
+          <input
+            defaultChecked={!!params.domains?.[d]}
+            id={d}
+            type="radio"
+            name="domains"
+            value={d}
+          />
           <label htmlFor={d}>{d}</label>
         </span>
       ))}
@@ -97,6 +119,7 @@ export default function Home() {
         name="technicalValues"
         options={TECHNICAL_VALUES}
         noSelection={noSelection}
+        defaultValue={initialParams.technicalValues}
       />
       <h3>Social Values</h3>
       <MultiSelect<"socialValues">
@@ -105,6 +128,7 @@ export default function Home() {
         name="socialValues"
         options={SOCIAL_VALUES}
         noSelection={noSelection}
+        defaultValue={initialParams.socialValues}
       />
       <h2>Result</h2>
       {missingParams.length ? (
@@ -145,22 +169,23 @@ export default function Home() {
           <p>
             <b>
               No one can or should agree with every value in the underlying
-              assessment data or model
+              assessment data or model.
             </b>
-            . There are billions of combinations of inputs that the assessment
-            data could hold. If you agree with everything as it is in its
-            current state, you are not critiquing or looking hard enough. Values
-            in default assessment and model are both objective and subjective,
-            but mainly the latter. Experienced developers understand that
-            software is art. The assessed values liberally reflect subjectively
-            artful evaluations <b>with experience and practice driven</b>{" "}
-            guidance. All persons have biases, but we commit to the best and of
-            our abilities to minimize biases in the assessed values. This tool
-            is meant to assist, not to condemn or promote any given tool.
-            Absolute judgement or dogmatism are unwelcome. If you are using this
-            tool to prove a point, you are using it wrong. Can you trust it?
-            Sure. Should this tool alone form your judgements in decision
-            making? No, it should not.
+            There are quattuordecillions of combinations of inputs that the
+            assessment data could hold. If you agree with everything as it is in
+            its current state, you are not critiquing or looking hard enough.
+            Values in default assessment data and model are both objective and
+            subjective, but mainly the latter. Experienced developers understand
+            that software is art. The assessed values liberally reflect
+            subjectively artful evaluations{" "}
+            <b>with experience and practice driven</b> guidance. All persons
+            have biases, but we commit to the best and of our abilities to
+            minimize biases in the assessed values. This tool is meant to
+            assist, not to condemn or promote any given tool. Absolute judgement
+            and dogmatism are unwelcome. If you are using this tool to prove a
+            point, you are using it wrong. Can you trust it? Sure. Should this
+            tool alone form your judgements during decision making? No, it
+            should not.
           </p>
         </li>
         <li>
@@ -227,4 +252,29 @@ export default function Home() {
       </ol>
     </main>
   );
+}
+
+const DEFAULT_SELECT_PARAMS = {
+  technicalValues: null,
+  socialValues: null,
+  domains: null,
+};
+
+function getInitialParams(): PLSelectParamsOrNull {
+  if (typeof window === "undefined") return DEFAULT_SELECT_PARAMS;
+  const last = window.localStorage.getItem("last_params");
+  if (!last) return DEFAULT_SELECT_PARAMS;
+  try {
+    const candidate: {
+      modelTypesHash: string;
+      params: PLSelectParamsOrNull;
+    } = JSON.parse(last);
+    if (!candidate || !candidate.params) return DEFAULT_SELECT_PARAMS;
+    if (MODEL_TYPES_HASH === candidate.modelTypesHash) {
+      return candidate.params;
+    }
+    return DEFAULT_SELECT_PARAMS;
+  } catch {
+    return DEFAULT_SELECT_PARAMS;
+  }
 }

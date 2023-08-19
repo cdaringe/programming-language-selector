@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { OctocatGithub } from "./components/OctocatGithub";
 import "./globals.css";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Programming Language Selector",
@@ -22,7 +20,10 @@ export default function RootLayout({
           href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css"
         ></link>
       </head>
-      <body>{children}</body>
+      <body>
+        <OctocatGithub />
+        {children}
+      </body>
     </html>
   );
 }
