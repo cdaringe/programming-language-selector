@@ -72,10 +72,7 @@ export default function Home() {
       <p>
         Score & rank programming languages given user specified values and the
         target programming domain.
-      </p>
-      <br />
-
-      <p>
+        <br /> <br />
         See the <a href="#faq">FAQ</a> for more.
       </p>
       <h2>Parameters</h2>
@@ -150,8 +147,23 @@ export default function Home() {
       )}
       <hr style={{ marginTop: 40 }} />
       <h2 id="faq">FAQ</h2>
-      <ol>
+      <ul>
         <li>
+          <li>
+            <h3>My language of interest is missing. Why?</h3>
+            <p>
+              Feel free to add it. This project is new. Give it time to catch
+              up.
+            </p>
+            See the{" "}
+            <a
+              href="https://github.com/cdaringe/programming-language-selector/blob/main/.github/contributing.md"
+              target="_blank"
+            >
+              <code>contributing.md</code>
+            </a>
+            .
+          </li>
           <h3>What is this tool for?</h3>
           <p>
             This tool <code>score</code>s programming languages based on their
@@ -189,13 +201,6 @@ export default function Home() {
           </p>
         </li>
         <li>
-          <h3>My language of interest is missing, why?</h3>
-          <p>
-            Feel free to add it! This project is new. Give it time to catch up.
-          </p>
-          See the <code>CONTRIBUTING.md</code> in github.
-        </li>
-        <li>
           <h3>Why is the model designed the way it is?</h3>
           <p>
             The model is known (at current time) to be
@@ -224,7 +229,7 @@ export default function Home() {
           <p>
             Absolutely. The functionality is not yet baked in, but this should
             absolutely accept models as input, versus purely the default model.
-            <code>rank = f(model, data, userValue)</code>
+            <code>score = f(model, langData, userValues)</code>
           </p>
         </li>
         <li>
@@ -249,7 +254,7 @@ export default function Home() {
           public GitHub. You must, above all else, be demonstrably kind in your
           programming public life on GitHub.
         </li>
-      </ol>
+      </ul>
     </main>
   );
 }
