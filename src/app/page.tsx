@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { MultiSelect } from "./components/MultiSelect";
+import { MultiSelect } from "./components/MultiSelect/MultiSelect";
 import { Ranker } from "./components/Ranker";
 import type { PLSelectParamsOrNull } from "./model/types";
 
@@ -154,21 +154,20 @@ export default function Home() {
       <h2 id="faq">FAQ</h2>
       <ul>
         <li>
-          <li>
-            <h3>My language of interest is missing. Why?</h3>
-            <p>
-              Feel free to add it. This project is new. Give it time to catch
-              up.
-            </p>
-            See the{" "}
-            <a
-              href="https://github.com/cdaringe/programming-language-selector/blob/main/.github/contributing.md"
-              target="_blank"
-            >
-              <code>contributing.md</code>
-            </a>
-            .
-          </li>
+          <h3>My language of interest is missing. Why?</h3>
+          <p>
+            Feel free to add it. This project is new. Give it time to catch up.
+          </p>
+          See the{" "}
+          <a
+            href="https://github.com/cdaringe/programming-language-selector/blob/main/.github/contributing.md"
+            target="_blank"
+          >
+            <code>contributing.md</code>
+          </a>
+          .
+        </li>
+        <li>
           <h3>What is this tool for?</h3>
           <p>
             This tool <code>score</code>s programming languages based on their
