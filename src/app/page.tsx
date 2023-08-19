@@ -251,12 +251,22 @@ export default function Home() {
           </p>
         </li>
         <li>
-          <h3>Who makes all the rules here?</h3> I do! This is a single person
-          project. I am willing to expand ownership to a counsel of informed
-          experts. You must demonstrate experience, sympathy, empathy, and the
-          pursuit of nirvana. I will check a sample of your comment history in
-          public GitHub. You must, above all else, be demonstrably kind in your
-          programming public life on GitHub.
+          <h3>Who makes all the rules here?</h3>
+          <p>
+            I do! This is a single person project. I am willing to expand
+            ownership to a counsel of informed experts. You must demonstrate
+            experience, sympathy, empathy, and the pursuit of nirvana. I will
+            check a sample of your comment history in public GitHub. You must,
+            above all else, be demonstrably kind in your programming public life
+            on GitHub.
+          </p>
+        </li>
+        <li>
+          <h3>I keep getting an obscure language recommended. Why?</h3>
+          <p>
+            I regret to inform that the language to which you are referring is
+            infact <i>not</i> obscure.
+          </p>
         </li>
       </ul>
     </main>
