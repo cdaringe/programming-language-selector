@@ -1,2 +1,3 @@
 .eslint*
 pnpm-lock.yaml
+renovate.json
