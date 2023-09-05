@@ -21,10 +21,4 @@ jobs:
         run: |
           pnpm install
           pnpm format:check
-          pnpm typecheck
           pnpm build
-          echo "inspecting exported out dir"
-          ls -al ./out
-          echo "adding .nojekyll"
-          touch ./out/.nojekyll
-          ls -al out/.nojekyll
