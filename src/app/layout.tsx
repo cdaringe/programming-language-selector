@@ -17,7 +17,7 @@ export default function RootLayout({
       <head>
         <link
           rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css"
+          href="https://cdn.jsdelivr.net/npm/water.css@2/out/dark.css"
         ></link>
       </head>
       <body>
