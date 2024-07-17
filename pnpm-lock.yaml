@@ -40,8 +40,8 @@ importers:
         version: 5.5.3
     devDependencies:
       husky:
-        specifier: 9.0.11
-        version: 9.0.11
+        specifier: 9.1.0
+        version: 9.1.0
       papaparse:
         specifier: 5.4.1
         version: 5.4.1
@@ -666,8 +666,8 @@ packages:
     resolution: {integrity: sha512-f2dvO0VU6Oej7RkWJGrehjbzMAjFp5/VKPp5tTpWIV4JHHZK1/BxbFRtf/siA2SWTe09caDmVtYYzWEIbBS4zw==}
     engines: {node: '>= 0.4.0'}
 
-  husky@9.0.11:
-    resolution: {integrity: sha512-AB6lFlbwwyIqMdHYhwPe+kjOC3Oc5P3nThEoW/AaO2BX3vJDjWPFxYLxokUZOo6RNX20He3AaT8sESs9NJcmEw==}
+  husky@9.1.0:
+    resolution: {integrity: sha512-8XCjbomYTGdNF2h50dio3T3zghmZ9f/ZNzr99YwSkvDdhEjJGs5qzy8tbFx+SG8yCx2wn9nMVfZxVrr/yT8gNQ==}
     engines: {node: '>=18'}
     hasBin: true
 
@@ -2023,7 +2023,7 @@ snapshots:
     dependencies:
       function-bind: 1.1.1
 
-  husky@9.0.11: {}
+  husky@9.1.0: {}
 
   ignore@5.2.4: {}
 
